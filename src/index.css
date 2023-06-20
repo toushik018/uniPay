@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.navContainer{
+    @apply w-9/12 mx-auto
+}
