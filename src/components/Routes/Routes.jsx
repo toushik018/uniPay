@@ -7,6 +7,9 @@ import Login from "../pages/Login";
 import Registration from "../pages/Registration ";
 import Tour from "../pages/Tour/PayFees";
 import ToursPage from "../pages/Tour/TourPage";
+import AddTour from "../pages/AddTour/AddTour";
+import TourDetailsPage from "../pages/TourDetails/Tourdetails";
+
 
 
   const router = createBrowserRouter([
@@ -33,7 +36,21 @@ import ToursPage from "../pages/Tour/TourPage";
         {
           path: '/register',
           element: <Registration></Registration>
+        },
+        {
+          path:'tours',
+          element: <ToursPage></ToursPage>
+        },
+        {
+          path: '/addtour',
+          element: <AddTour></AddTour>
+        },
+        {
+          path: '/tours/:id',
+          element: <TourDetailsPage />,
+          loader: ({ params }) => fetch(`http://localhost:5000/tours/${params.id}`)
         }
+        
       ]
     }
    

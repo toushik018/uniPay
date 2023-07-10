@@ -1,18 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useContext } from 'react';
 import { AuthContext } from '../../Providers/AuthProvider';
 
 const Login = () => {
   const {signIn} = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = (data) => {
     signIn(data.email, data.password)
       .then(() => {
         console.log('User logged in successfully');
-        // Add any additional logic or redirection after successful login
+        navigate(from, { replace: true });
       })
       .catch((error) => {
         console.error('Failed to log in:', error);

@@ -204,6 +204,8 @@ const Registration = () => {
               <p className="mt-2 text-sm text-red-600">{errors.confirmPassword.message}</p>
             )}
           </div>
+          
+          <input type="file" class="file-input file-input-bordered file-input-sm w-full max-w-xl" />
 
           <div>
             <button

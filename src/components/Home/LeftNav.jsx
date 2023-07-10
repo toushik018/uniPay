@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../Providers/AuthProvider';
+import Profile from './Profile';
 
 const LeftNav = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -48,7 +49,7 @@ const LeftNav = () => {
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-screen w-44 bg-gray-400 shadow-lg z-40 transform ${isOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`fixed top-0 left-0 h-screen w-60 bg-gray-400 shadow-lg z-40 transform ${isOpen ? 'translate-x-0' : '-translate-x-full'
           } md:translate-x-0 transition-transform duration-300 ease-in-out `}
       >
         <div className="flex justify-between items-center px-4 py-6">
@@ -71,10 +72,12 @@ const LeftNav = () => {
               />
             </svg>
           </button>
-          <div className="flex flex-col items-start pr-12">
+        </div>
+
+        <div className="flex -mt-6 justify-center items-center gap-6 lg:mt-2">
+            <Profile></Profile>
             <span className="text-2xl font-bold text-white">UniPay</span>
           </div>
-        </div>
 
         <nav className="px-4 py-2">
           <ul>
@@ -94,20 +97,45 @@ const LeftNav = () => {
                 Students
               </Link>
             </li>
+            <li>
+              <Link
+                to="/tours"
+                className="block py-2 pl-4 text-white transition-colors duration-300 hover:bg-blue-700 hover:rounded-lg hover:text-white"
+              >
+                Tours
+              </Link>
+            </li>
+
+
+            <li>
+              <Link
+                to="/addtour"
+                className="block py-2 pl-4 text-white transition-colors duration-300 hover:bg-blue-700 hover:rounded-lg hover:text-white"
+              >
+                Add Tour
+              </Link>
+            </li>
           </ul>
         </nav>
 
         {/* Login and Logout Buttons */}
 
         <div className="absolute bottom-6 left-4">
-          {
-            user ? <>
+          {user ? (
+            <>
               <button onClick={handleLogOut} className="block px-4 py-2 text-white rounded-lg bg-red-700 hover:bg-red-800">LogOut</button>
-            </> : <>
-              <li> <Link className='block px-4 py-2 text-white rounded-lg bg-blue-700 hover:bg-blue-800 mr-2' to="/login">Login</Link></li>
             </>
-          }
+          ) : (
+            <>
+              <li className="list-none">
+                <Link className='block px-4 py-2 text-white rounded-lg bg-blue-700 hover:bg-blue-800 mr-2' to="/login">Login</Link>
+              </li>
+            </>
+          )}
         </div>
+
+
+
       </div>
 
       {/* Overlay */}

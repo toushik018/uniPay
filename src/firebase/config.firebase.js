@@ -5,12 +5,12 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBgnTSLZR1AOBRJIN01p5EfkMMJ9Du0Q1Y",
-  authDomain: "unipay-client.firebaseapp.com",
-  projectId: "unipay-client",
-  storageBucket: "unipay-client.appspot.com",
-  messagingSenderId: "424356490527",
-  appId: "1:424356490527:web:7bf48dc01c3f133b65542a"
+  apiKey: import.meta.env.VITE_apiKey,
+  authDomain: import.meta.env.VITE_authDomain,
+  projectId: import.meta.env.VITE_projectId,
+  storageBucket: import.meta.env.VITE_storageBucket,
+  messagingSenderId: import.meta.env.VITE_messagingSenderId,
+  appId: import.meta.env.VITE_appId,
 };
 
 // Initialize Firebase
