@@ -9,6 +9,8 @@ import Tour from "../pages/Tour/PayFees";
 import ToursPage from "../pages/Tour/TourPage";
 import AddTour from "../pages/AddTour/AddTour";
 import TourDetailsPage from "../pages/TourDetails/Tourdetails";
+import ClubPage from "../pages/Club/ClubPage";
+import AddClub from "../pages/AddClub/AddClub";
 
 
 
@@ -28,6 +30,16 @@ import TourDetailsPage from "../pages/TourDetails/Tourdetails";
         {
           path: '/tours',
           element: <ToursPage></ToursPage>
+        },
+        {
+          path: '/club',
+          element: <ClubPage></ClubPage>
+
+        },
+        {
+          path: '/addclub',
+          element: <AddClub></AddClub>
+
         },
         {
           path: '/login',

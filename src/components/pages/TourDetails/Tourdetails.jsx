@@ -7,7 +7,7 @@ const TourDetailsPage = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen pt-8">
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-screen-lg w-full mx-auto px-4 py-8">
         <div className="mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
           <img
             className="w-full h-auto lg:h-[600px] object-"

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../../Providers/AuthProvider';
+import profileimg from '../../assets/profile.png'
 const Home = () => {
 
     const { user } = useContext(AuthContext);

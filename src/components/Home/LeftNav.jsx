@@ -8,6 +8,8 @@ const LeftNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, logOut } = useContext(AuthContext);
 
+  
+
   const toggleNav = () => {
     setIsOpen(!isOpen);
   };
@@ -97,6 +99,16 @@ const LeftNav = () => {
                 Students
               </Link>
             </li>
+
+            <li>
+              <Link
+                to="/club"
+                className="block py-2 pl-4 text-white transition-colors duration-300 hover:bg-blue-700 hover:rounded-lg hover:text-white"
+              >
+                Clubs
+              </Link>
+            </li>
+
             <li>
               <Link
                 to="/tours"
@@ -115,6 +127,15 @@ const LeftNav = () => {
                 Add Tour
               </Link>
             </li>
+            <li>
+              <Link
+                to="/addclub"
+                className="block py-2 pl-4 text-white transition-colors duration-300 hover:bg-blue-700 hover:rounded-lg hover:text-white"
+              >
+                Add Clubs
+              </Link>
+            </li>
+            
           </ul>
         </nav>
 
