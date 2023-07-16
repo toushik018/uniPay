@@ -1,26 +1,23 @@
-import React, { useState } from 'react';
-import { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../Providers/AuthProvider';
 import Profile from './Profile';
+import useAdmin from '../../hooks/useAdmin';
 
 const LeftNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, logOut } = useContext(AuthContext);
-
-  
+  const [isAdmin] = useAdmin();
 
   const toggleNav = () => {
     setIsOpen(!isOpen);
   };
 
-
   const handleLogOut = () => {
     logOut()
-      .then(() => { })
-      .catch(error => console.log(error));
-  }
-
+      .then(() => {})
+      .catch((error) => console.log(error));
+  };
 
   return (
     <div>
@@ -51,8 +48,9 @@ const LeftNav = () => {
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-screen w-60 bg-gray-400 shadow-lg z-40 transform ${isOpen ? 'translate-x-0' : '-translate-x-full'
-          } md:translate-x-0 transition-transform duration-300 ease-in-out `}
+        className={`fixed top-0 left-0 h-screen w-60 bg-gray-400 shadow-lg z-40 transform ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        } md:translate-x-0 transition-transform duration-300 ease-in-out `}
       >
         <div className="flex justify-between items-center px-4 py-6">
           <button
@@ -77,9 +75,9 @@ const LeftNav = () => {
         </div>
 
         <div className="flex -mt-6 justify-center items-center gap-6 lg:mt-2">
-            <Profile></Profile>
-            <span className="text-2xl font-bold text-white">UniPay</span>
-          </div>
+          <Profile />
+          <span className="text-2xl font-bold text-white">UniPay</span>
+        </div>
 
         <nav className="px-4 py-2">
           <ul>
@@ -91,51 +89,78 @@ const LeftNav = () => {
                 Home
               </Link>
             </li>
-            <li>
-              <Link
-                to="/students"
-                className="block py-2 pl-4 text-white transition-colors duration-300 hover:bg-blue-700 hover:rounded-lg hover:text-white"
-              >
-                Students
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                to="/club"
-                className="block py-2 pl-4 text-white transition-colors duration-300 hover:bg-blue-700 hover:rounded-lg hover:text-white"
-              >
-                Clubs
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                to="/tours"
-                className="block py-2 pl-4 text-white transition-colors duration-300 hover:bg-blue-700 hover:rounded-lg hover:text-white"
-              >
-                Tours
-              </Link>
-            </li>
-
-
-            <li>
-              <Link
-                to="/addtour"
-                className="block py-2 pl-4 text-white transition-colors duration-300 hover:bg-blue-700 hover:rounded-lg hover:text-white"
-              >
-                Add Tour
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/addclub"
-                className="block py-2 pl-4 text-white transition-colors duration-300 hover:bg-blue-700 hover:rounded-lg hover:text-white"
-              >
-                Add Clubs
-              </Link>
-            </li>
-            
+            {!isAdmin && (
+              <>
+                <li>
+                  <Link
+                    to="/tours"
+                    className="block py-2 pl-4 text-white transition-colors duration-300 hover:bg-blue-700 hover:rounded-lg hover:text-white"
+                  >
+                    Tours
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/clubs"
+                    className="block py-2 pl-4 text-white transition-colors duration-300 hover:bg-blue-700 hover:rounded-lg hover:text-white"
+                  >
+                    Clubs
+                  </Link>
+                </li>
+              </>
+            )}
+            {isAdmin && (
+              <>
+                <li>
+                  <Link
+                    to="/students"
+                    className="block py-2 pl-4 text-white transition-colors duration-300 hover:bg-blue-700 hover:rounded-lg hover:text-white"
+                  >
+                    Students
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/tours"
+                    className="block py-2 pl-4 text-white transition-colors duration-300 hover:bg-blue-700 hover:rounded-lg hover:text-white"
+                  >
+                    Tours
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/clubs"
+                    className="block py-2 pl-4 text-white transition-colors duration-300 hover:bg-blue-700 hover:rounded-lg hover:text-white"
+                  >
+                    Clubs
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/addtour"
+                    className="block py-2 pl-4 text-white transition-colors duration-300 hover:bg-blue-700 hover:rounded-lg hover:text-white"
+                  >
+                    Add Tour
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/addclub"
+                    className="block py-2 pl-4 text-white transition-colors duration-300 hover:bg-blue-700 hover:rounded-lg hover:text-white"
+                  >
+                    Add Clubs
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/transaction-history"
+                    className="block py-2 pl-4 text-white transition-colors duration-300 hover:bg-blue-700 hover:rounded-lg hover:text-white"
+                  >
+                    Payment History
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </nav>
 
@@ -144,19 +169,26 @@ const LeftNav = () => {
         <div className="absolute bottom-6 left-4">
           {user ? (
             <>
-              <button onClick={handleLogOut} className="block px-4 py-2 text-white rounded-lg bg-red-700 hover:bg-red-800">LogOut</button>
+              <button
+                onClick={handleLogOut}
+                className="block px-4 py-2 border-2 border-red-400 text-gray-200 font-semibold rounded-md hover:rounded-full bg-gradient-to-r from-red-600 to-red-600 hover:text-white transition duration-300 ease-in-out"
+              >
+                Log Out
+              </button>
             </>
           ) : (
             <>
               <li className="list-none">
-                <Link className='block px-4 py-2 text-white rounded-lg bg-blue-700 hover:bg-blue-800 mr-2' to="/login">Login</Link>
+                <Link
+                  className="block border-2 px-4 py-2 border-green-400 text-gray-200 font-semibold rounded-md hover:rounded-full bg-gradient-to-r from-green-600 to-green-600 hover:text-white transition duration-300 ease-in-out"
+                  to="/login"
+                >
+                  Login
+                </Link>
               </li>
             </>
           )}
         </div>
-
-
-
       </div>
 
       {/* Overlay */}

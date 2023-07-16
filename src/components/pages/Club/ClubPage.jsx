@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const ClubPage = () => {
 
@@ -49,12 +50,16 @@ const ClubPage = () => {
                   <td className="py-2 px-4 border-b text-left">{club.name}</td>
                   <td className="py-2 px-4 border-b text-left">{club.fee}</td>
                   <td className="py-2 px-4 border-b">
-                    <button
+                   
+                   <Link to={`/checkout/${club._id}`}>
+                   <button
                       className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-                      onClick={() => handlePayment(club.name)}
+                      
                     >
                       Pay
                     </button>
+                   </Link>
+
                   </td>
                 </tr>
               ))}

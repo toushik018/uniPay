@@ -1,19 +1,25 @@
 import React, { useContext, useState } from 'react';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../Providers/AuthProvider';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Registration = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { createUser, updateUserProfile } = useContext(AuthContext);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch
-  } = useForm();
+  const navigate = useNavigate();
+
+  const imageHostingToken = import.meta.env.VITE_image_hosating;
+
+
+  const { register, reset, handleSubmit, formState: { errors }, watch } = useForm();
+
+  const img_hosting_url = `https://api.imgbb.com/1/upload?key=${imageHostingToken}`;
+
+
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -26,26 +32,63 @@ const Registration = () => {
 
 
 
-
-  const onSubmit = (data) => {
-    createUser(data.email, data.password)
-      .then(result => {
-        const loggedUser = result.user;
-        console.log(loggedUser);
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+    formData.append("image", data.image[0]);
   
-        updateUserProfile(data.name, data.photoURL)
-          .then(() => {
-            console.log(data);
-          })
-          .catch(error => {
-            console.error('Failed to update user profile:', error);
-          });
-      })
-      .catch(error => {
-        console.error('Failed to create user:', error);
+    try {
+      const imageResponse = await fetch(img_hosting_url, {
+        method: "POST",
+        body: formData,
       });
+  
+      if (!imageResponse.ok) {
+        throw new Error("Failed to upload image");
+      }
+  
+      const imageResult = await imageResponse.json();
+      if (imageResult.success) {
+        const imgURL = imageResult.data.display_url;
+        const userData = { ...data, photoURL: imgURL };
+  
+        createUser(userData.email, userData.password)
+          .then((result) => {
+            const user = result.user;
+            console.log(user);
+            updateUserProfile(userData.name, userData.photoURL);
+          })
+          .then(() => {
+            console.log('User profile updated');
+            const saveUser = { name: userData.name, email: userData.email, id: userData.id };
+  
+            fetch('http://localhost:5000/users', {
+              method: 'POST',
+              headers: {
+                'content-type': 'application/json',
+              },
+              body: JSON.stringify(saveUser),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                if (data.insertedId) {
+                  reset();
+                  toast.success("You have registered successfully");
+                  navigate('/');
+                }
+              });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        throw new Error("Failed to get image URL");
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
   };
   
+
 
 
 
@@ -68,6 +111,8 @@ const Registration = () => {
     }
     return true;
   };
+
+
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
@@ -204,8 +249,19 @@ const Registration = () => {
               <p className="mt-2 text-sm text-red-600">{errors.confirmPassword.message}</p>
             )}
           </div>
-          
-          <input type="file" class="file-input file-input-bordered file-input-sm w-full max-w-xl" />
+
+          {/* Image upload */}
+
+          <div className="form-control w-full max-w-lg">
+            <label className="label">
+              <span className="label-text">Upload an Image</span>
+            </label>
+            <input
+              type="file"
+              {...register("image", { required: true })}
+              className="file-input file-input-bordered w-full max-w-lg"
+            />
+          </div>
 
           <div>
             <button
@@ -226,6 +282,7 @@ const Registration = () => {
           </div>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 };

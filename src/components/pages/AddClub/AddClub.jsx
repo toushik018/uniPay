@@ -26,7 +26,7 @@ const AddClub = () => {
     };
 
     return (
-        <div className="w-full lg:w-2/4 md:w-3/4 mt-10 mx-auto px-4 py-8 bg-gray-100 rounded-lg shadow-md">
+        <div className="w-full lg:w-2/4 md:w-3/4 mt-16 mx-auto px-4 py-8 bg-gray-100 rounded-lg shadow-md">
             <h1 className="text-3xl font-bold mb-6">Add a Club</h1>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mb-4">

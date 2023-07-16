@@ -54,6 +54,8 @@ function ToursPage() {
                     </span>
                     <span className="text-blue-600">{tour.cost}</span>
                   </div>
+                  
+                  <Link to={`/tours-checkout/${tour._id}`}>
                   <button
                     className={`px-4 py-2 rounded-full ${
                       tour.registration === "Open"
@@ -66,6 +68,8 @@ function ToursPage() {
                       ? "Register"
                       : "Registration Closed"}
                   </button>
+                  </Link>
+
                 </div>
                 <Link to={`/tours/${tour._id}`}>
                   <button className="px-4 py-2 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-medium">

@@ -30,7 +30,7 @@ const AddTour = () => {
     },
   });
 
-  console.log(imageHostingToken);
+  // console.log(imageHostingToken);
 
   const {
     register,
@@ -135,7 +135,7 @@ const AddTour = () => {
             )}
           </div>
 
-          <div className="flex justify-evenly gap-2 items-center">
+          <div className="lg:flex justify-evenly gap-2 items-center">
             <div className="mb-6 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
@@ -373,7 +373,7 @@ const AddTour = () => {
 
           {/* Upload image */}
 
-          <div className="form-control w-full max-w-xs">
+          <div className="form-control w-full max-w-xs mb-4">
             <label className="label">
               <span className="label-text">Upload a Image</span>
             </label>

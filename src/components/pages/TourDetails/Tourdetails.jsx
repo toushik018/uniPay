@@ -3,6 +3,8 @@ import { useLoaderData } from 'react-router-dom';
 const TourDetailsPage = () => {
   const tour = useLoaderData();
 
+  console.log(tour);
+
 
 
   return (

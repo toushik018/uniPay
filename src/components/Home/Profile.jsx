@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AuthContext } from "../../Providers/AuthProvider";
+import noDp from "../../assets/blank.png";
 
 const Profile = () => {
+  const { user } = useContext(AuthContext);
+
   return (
-    <div className="avatar">
-      <div className="w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-        <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+    <div className="avatar tooltip tooltip-success" data-tip={user?.displayName}>
+      <div className="relative w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 hover:ring-offset-0 hover:ring-offset-transparent hover:ring-4 transition-transform" >
+        <img
+          src={user?.photoURL || noDp}
+          alt="User Profile"
+          className="transform hover:scale-125 duration-500"
+        />
       </div>
     </div>
   );

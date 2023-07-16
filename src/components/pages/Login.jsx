@@ -3,25 +3,36 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useContext } from 'react';
 import { AuthContext } from '../../Providers/AuthProvider';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
-  const {signIn} = useContext(AuthContext);
+  const { signIn } = useContext(AuthContext);
+
   const navigate = useNavigate();
   const location = useLocation();
 
   const from = location.state?.from?.pathname || "/";
+
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = (data) => {
     signIn(data.email, data.password)
       .then(() => {
         console.log('User logged in successfully');
+        toast.success('Login successful!', {
+          position: toast.POSITION.TOP_RIGHT,
+        });
         navigate(from, { replace: true });
       })
-      .catch((error) => {
-        console.error('Failed to log in:', error);
-        // Handle login error
-      });
+
+      .catch(error => {
+        console.log(error);
+        toast.error('Invalid email or password. Please check your credentials.', {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+
+      })
   };
 
 
@@ -39,22 +50,7 @@ const Login = () => {
           </p>
         </div>
 
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <label htmlFor="id" className="block text-sm font-medium text-gray-700">
-              ID
-            </label>
-            <div className="mt-1">
-              <input
-                id="id"
-                {...register("id", { required: true })}
-                type="text"
-                autoComplete="off"
-                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              />
-              {errors.id && <span>This field is required</span>}
-            </div>
-          </div>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}> 
 
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
@@ -118,6 +114,7 @@ const Login = () => {
           </div>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 };
