@@ -68,7 +68,7 @@ import AdminRoute from "./AdminRoute";
         {
           path: '/tours/:id',
           element: <TourDetailsPage />,
-          loader: ({ params }) => fetch(`http://localhost:5000/tours/${params.id}`)
+          loader: ({ params }) => fetch(`https://unipay-server-toushik018.vercel.app/tours/${params.id}`)
         }, 
         {
           path: 'students',
@@ -78,12 +78,12 @@ import AdminRoute from "./AdminRoute";
         {
           path: '/checkout/:id',
           element:<PrivateRoute><ClubCheckout /></PrivateRoute>,
-          loader: ({ params }) => fetch(`http://localhost:5000/clubs/${params.id}`)
+          loader: ({ params }) => fetch(`https://unipay-server-toushik018.vercel.app/clubs/${params.id}`)
         },
         {
           path: '/tours-checkout/:id',
           element: <PrivateRoute><TourCheckout></TourCheckout></PrivateRoute>,
-          loader: ({ params }) => fetch(`http://localhost:5000/tours/${params.id}`)
+          loader: ({ params }) => fetch(`https://unipay-server-toushik018.vercel.app/tours/${params.id}`)
         }, 
         
         {

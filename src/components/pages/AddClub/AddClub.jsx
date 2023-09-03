@@ -6,7 +6,7 @@ const AddClub = () => {
 
     const onSubmit = async (data) => {
         try {
-          const response = await fetch('http://localhost:5000/clubs', {
+          const response = await fetch('https://unipay-server-toushik018.vercel.app/clubs', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

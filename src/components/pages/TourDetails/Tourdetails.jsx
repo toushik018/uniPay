@@ -43,9 +43,6 @@ const TourDetailsPage = () => {
                 }
               })}
             </ul>
-
-
-
           </div>
         </div>
         <div className="bg-white shadow-lg rounded-lg overflow-hidden mt-8">

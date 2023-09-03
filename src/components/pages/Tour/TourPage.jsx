@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import useAuth from "../../../hooks/useAuth";
 
 function ToursPage() {
   const [toursData, setToursData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [userOrder, setUserOrder] = useState([]);
+  const {user} = useAuth();  //login user data is here. 
+
+  console.log(userOrder);
 
   useEffect(() => {
-    fetch("http://localhost:5000/tours")
+    fetch("https://unipay-server-toushik018.vercel.app/tours")
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -14,6 +19,21 @@ function ToursPage() {
         setIsLoading(false);
       });
   }, []);
+
+
+
+  useEffect(() => {
+    fetch("https://unipay-server-toushik018.vercel.app/tourorders")
+      .then((res) => res.json())
+      .then((data) => {
+        setUserOrder(data);
+      });
+  }, []);
+
+  function isUserRegistered(tourId, email) {
+    return userOrder.some((order) => order.tour._id === tourId && order.order.email === email);
+  }
+
 
   if (isLoading) {
     return (
@@ -56,18 +76,16 @@ function ToursPage() {
                   </div>
                   
                   <Link to={`/tours-checkout/${tour._id}`}>
-                  <button
-                    className={`px-4 py-2 rounded-full ${
-                      tour.registration === "Open"
-                        ? "bg-green-500 hover:bg-green-600"
-                        : "bg-gray-400 cursor-not-allowed"
-                    } text-white font-medium`}
-                    disabled={tour.registration !== "Open"}
-                  >
-                    {tour.registration === "Open"
-                      ? "Register"
-                      : "Registration Closed"}
-                  </button>
+                    <button
+                      className={`px-4 py-2 rounded-full ${
+                        isUserRegistered(tour._id, user?.email)
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-green-500 hover:bg-green-600"
+                      } text-white font-medium`}
+                      disabled={isUserRegistered(tour._id, user?.email)}
+                    >
+                      {isUserRegistered(tour._id, user?.email) ? "Registered" : "Register"}
+                    </button>
                   </Link>
 
                 </div>

@@ -15,7 +15,7 @@ const TourCheckout = () => {
     const onSubmit = (data) => {
         console.log(data);
         data.tourId = id;
-        fetch('http://localhost:5000/tourorders', {
+        fetch('https://unipay-server-toushik018.vercel.app/tourorders', {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
           body: JSON.stringify(data)
@@ -27,7 +27,6 @@ const TourCheckout = () => {
         })
     
     
-        // Logic for handling the form submission
       };
 
 

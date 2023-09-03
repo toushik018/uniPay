@@ -9,7 +9,7 @@ const ClubPage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5000/clubs")
+    fetch("https://unipay-server-toushik018.vercel.app/clubs")
       .then((res) => res.json())
       .then((data) => {
         console.log(data);

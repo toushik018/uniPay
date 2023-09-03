@@ -5,7 +5,7 @@ const PaymentHistory = () => {
   const [tourPayments, setTourPayments] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/orders")
+    fetch("https://unipay-server-toushik018.vercel.app/orders")
       .then((res) => res.json())
       .then((data) => {
         setClubPayments(data);
@@ -13,7 +13,7 @@ const PaymentHistory = () => {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:5000/tourorders")
+    fetch("https://unipay-server-toushik018.vercel.app/tourorders")
       .then((res) => res.json())
       .then((data) => {
         setTourPayments(data);
@@ -158,10 +158,11 @@ const PaymentHistory = () => {
                             {order?.id}
                           </td>
                           <td className="px-4 py-3 whitespace-nowrap text-base text-gray-600">
-                            {tour?.destination}
+                            {tour?.destination?.slice(0, 15)}...
                           </td>
+
                           <td className="px-4 py-3 whitespace-nowrap text-base text-gray-600">
-                            {tour?.fee}
+                            {tour?.cost}
                           </td>
                           <td className="px-4 py-3 whitespace-nowrap text-base text-gray-600">
                             {order?.batch}

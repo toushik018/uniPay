@@ -7,7 +7,7 @@ const Profile = () => {
 
   return (
     <div className="avatar tooltip tooltip-success" data-tip={user?.displayName}>
-      <div className="relative w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 hover:ring-offset-0 hover:ring-offset-transparent hover:ring-4 transition-transform" >
+      <div className="relative w-16 rounded-full ring ring-green-600 ring-offset-base-100 ring-offset-2 hover:ring-offset-0 hover:ring-offset-transparent hover:ring-4 transition-transform">
         <img
           src={user?.photoURL || noDp}
           alt="User Profile"

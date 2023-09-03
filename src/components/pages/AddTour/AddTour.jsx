@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const addTour = async (data) => {
-  const response = await fetch("http://localhost:5000/tours", {
+  const response = await fetch("https://unipay-server-toushik018.vercel.app/tours", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

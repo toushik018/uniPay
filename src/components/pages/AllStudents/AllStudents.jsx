@@ -7,7 +7,7 @@ const AllStudents = () => {
 
 
     const makeAdmin = async (user) => {
-        fetch(`http://localhost:5000/users/admin/${user._id}`, {
+        fetch(`https://unipay-server-toushik018.vercel.app/users/admin/${user._id}`, {
             method: 'PATCH'
         })
             .then(res => res.json())
@@ -26,6 +26,7 @@ const AllStudents = () => {
         <div className="min-h-screen bg-gray-100">
             <div className="lg:max-w-5xl mx-auto py-8 px-4 sm:px-6 md:pl-16 lg:pl-16">
                 <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-16">
+                <h2 className="text-center text-3xl my-4">All Students </h2>
                     <div className="overflow-x-auto">
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-200">

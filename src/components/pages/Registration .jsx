@@ -61,7 +61,7 @@ const Registration = () => {
             console.log('User profile updated');
             const saveUser = { name: userData.name, email: userData.email, id: userData.id };
   
-            fetch('http://localhost:5000/users', {
+            fetch('https://unipay-server-toushik018.vercel.app/users', {
               method: 'POST',
               headers: {
                 'content-type': 'application/json',
