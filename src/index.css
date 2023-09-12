@@ -1,3 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Audiowide&family=Black+Ops+One&family=Bruno+Ace+SC&family=Bungee&family=EB+Garamond:wght@400;500;600;700;800&family=Josefin+Sans:wght@100;200;300;400;500;600;700&family=League+Spartan:wght@100;200;300;400;500;600;700;800;900&family=Lexend:wght@100;200;300;400;500;600;700;800;900&family=Monoton&family=Montserrat+Alternates:wght@100;200;300;400;500;600;700;800;900&family=Montserrat:wght@400;500;600;700;800;900&family=PT+Sans:wght@400;700&family=Pacifico&family=Poppins:wght@200;300;400;500;600;700;800&family=Raleway:wght@100;200;300;400;500;600;700;800;900&family=Righteous&family=Titillium+Web:wght@200;400;600;700;900&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;200;300;400;500;600;700&family=Jost:wght@200;300;400;500;600;700;800;900&family=Poppins:wght@200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&display=swap");
+
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,3 +12,8 @@
 .navContainer{
     @apply w-9/12 mx-auto
 }
+
+
+.bgGradient {
+   background-image: linear-gradient(-20deg, #e5d4fe 0%, #f4f5b5 100% );
+  }

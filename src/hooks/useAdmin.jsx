@@ -7,7 +7,7 @@ const useAdmin = () => {
   const { data: isAdmin, isLoading: isAdminLoading } = useQuery({
     queryKey: ['isAdmin', user?.email],
     queryFn: async () => {
-      const response = await fetch(`https://unipay-server-toushik018.vercel.app/users/admin/${user?.email}`);
+      const response = await fetch(`http://localhost:5000/users/admin/${user?.email}`);
       const data = await response.json();
       console.log(data);
       return data.admin;

@@ -19,6 +19,8 @@ import PaymentHistory from "../pages/PaymentHistory/PaymentHistory";
 import TourCheckout from "../pages/Tour/TourCheckout";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
+import ForgotPassword from "../pages/Authentication/ForgetPassword";
+import MyPayments from "../pages/MyPayments/MyPayments";
 
 
 
@@ -45,6 +47,11 @@ import AdminRoute from "./AdminRoute";
 
         },
         {
+          path: '/my-payments',
+          element: <MyPayments></MyPayments>
+
+        },
+        {
           path: '/addclub',
           element: <AdminRoute><AddClub></AddClub></AdminRoute>
 
@@ -52,6 +59,10 @@ import AdminRoute from "./AdminRoute";
         {
           path: '/login',
           element: <Login></Login>
+        },
+        {
+          path: '/forget-password',
+          element: <ForgotPassword></ForgotPassword>
         },
         {
           path: '/register',
@@ -68,24 +79,22 @@ import AdminRoute from "./AdminRoute";
         {
           path: '/tours/:id',
           element: <TourDetailsPage />,
-          loader: ({ params }) => fetch(`https://unipay-server-toushik018.vercel.app/tours/${params.id}`)
+          loader: ({ params }) => fetch(`http://localhost:5000/tours/${params.id}`)
         }, 
         {
           path: 'students',
           element: <AdminRoute><AllStudents></AllStudents></AdminRoute>
         },
-
         {
           path: '/checkout/:id',
           element:<PrivateRoute><ClubCheckout /></PrivateRoute>,
-          loader: ({ params }) => fetch(`https://unipay-server-toushik018.vercel.app/clubs/${params.id}`)
+          loader: ({ params }) => fetch(`http://localhost:5000/clubs/${params.id}`)
         },
         {
           path: '/tours-checkout/:id',
           element: <PrivateRoute><TourCheckout></TourCheckout></PrivateRoute>,
-          loader: ({ params }) => fetch(`https://unipay-server-toushik018.vercel.app/tours/${params.id}`)
+          loader: ({ params }) => fetch(`http://localhost:5000/tours/${params.id}`)
         }, 
-        
         {
           path: 'payment/success/:tranId',
           element: <PaymentSuccess></PaymentSuccess>

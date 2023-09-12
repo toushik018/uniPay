@@ -35,22 +35,22 @@ const Registration = () => {
   const onSubmit = async (data) => {
     const formData = new FormData();
     formData.append("image", data.image[0]);
-  
+
     try {
       const imageResponse = await fetch(img_hosting_url, {
         method: "POST",
         body: formData,
       });
-  
+
       if (!imageResponse.ok) {
         throw new Error("Failed to upload image");
       }
-  
+
       const imageResult = await imageResponse.json();
       if (imageResult.success) {
         const imgURL = imageResult.data.display_url;
         const userData = { ...data, photoURL: imgURL };
-  
+
         createUser(userData.email, userData.password)
           .then((result) => {
             const user = result.user;
@@ -59,9 +59,9 @@ const Registration = () => {
           })
           .then(() => {
             console.log('User profile updated');
-            const saveUser = { name: userData.name, email: userData.email, id: userData.id };
-  
-            fetch('https://unipay-server-toushik018.vercel.app/users', {
+            const saveUser = { name: userData.name, email: userData.email, id: userData.studentId, batch: userData.batch, photoURL: userData.photoURL };
+
+            fetch('http://localhost:5000/users', {
               method: 'POST',
               headers: {
                 'content-type': 'application/json',
@@ -87,7 +87,7 @@ const Registration = () => {
       console.error("Error uploading image:", error);
     }
   };
-  
+
 
 
 
@@ -126,13 +126,13 @@ const Registration = () => {
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <div>
-            <label htmlFor="id" className="block text-sm font-medium text-gray-700">
-              ID
+            <label htmlFor="studentId" className="block text-sm font-medium text-gray-700">
+              Student ID
             </label>
             <div className="mt-1">
               <input
-                id="id"
-                {...register('id', { required: true })}
+                id="studentId"
+                {...register('studentId', { required: true })}
                 type="text"
                 autoComplete="off"
                 required

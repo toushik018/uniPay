@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
+import { CgDetailsMore } from "react-icons/cg";
+
 
 function ToursPage() {
   const [toursData, setToursData] = useState([]);
@@ -8,10 +10,10 @@ function ToursPage() {
   const [userOrder, setUserOrder] = useState([]);
   const {user} = useAuth();  //login user data is here. 
 
-  console.log(userOrder);
+
 
   useEffect(() => {
-    fetch("https://unipay-server-toushik018.vercel.app/tours")
+    fetch("http://localhost:5000/tours")
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -23,7 +25,7 @@ function ToursPage() {
 
 
   useEffect(() => {
-    fetch("https://unipay-server-toushik018.vercel.app/tourorders")
+    fetch("http://localhost:5000/tourorders")
       .then((res) => res.json())
       .then((data) => {
         setUserOrder(data);
@@ -31,8 +33,14 @@ function ToursPage() {
   }, []);
 
   function isUserRegistered(tourId, email) {
-    return userOrder.some((order) => order.tour._id === tourId && order.order.email === email);
+    const userOrderEntry = userOrder.find(
+      (order) => order.tour._id === tourId && order.order.email === email
+    );
+  
+    return userOrderEntry ? userOrderEntry.paidStatus : false;
   }
+  
+  
 
 
   if (isLoading) {
@@ -47,13 +55,13 @@ function ToursPage() {
     <div className="min-h-screen bg-gray-100 pt-8">
       <div className="w-full max-w-7xl mx-auto px-4 py-8 md:pl-16 lg:pl-16">
         <h1 className="text-4xl font-bold text-gray-900 mb-8">
-          Upcoming Tours
+          Upcoming Events
         </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {toursData.map((tour, index) => (
             <div
               key={index}
-              className="max-w-sm mx-auto bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+              className="max-w-sm mx-auto bg-white border-2 border-orange-100 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300"
             >
               <img
                 className="h-48 w-full object-cover"
@@ -70,9 +78,9 @@ function ToursPage() {
                 <div className="flex justify-between items-center mb-4">
                   <div className="flex items-center">
                     <span className="text-gray-700 font-medium mr-2">
-                      Cost:
+                      Fee:
                     </span>
-                    <span className="text-blue-600">{tour.cost}</span>
+                    <span className="text-gray-700">{tour.cost} TK</span>
                   </div>
                   
                   <Link to={`/tours-checkout/${tour._id}`}>
@@ -90,8 +98,8 @@ function ToursPage() {
 
                 </div>
                 <Link to={`/tours/${tour._id}`}>
-                  <button className="px-4 py-2 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-medium">
-                    Details
+                  <button className="px-4 py-2 rounded-full bg-orange-500 hover:bg-orange-600 text-white font-medium flex items-center gap-2">
+                  Details <CgDetailsMore /> 
                   </button>
                 </Link>
               </div>

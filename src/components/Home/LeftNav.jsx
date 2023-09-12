@@ -5,7 +5,7 @@ import Profile from './Profile';
 import logo from '../../../public/logo.svg'
 import useAdmin from '../../hooks/useAdmin';
 import { FaHome, FaMapSigns, FaMoneyCheck, FaRobot, FaUsers } from 'react-icons/fa';
-import { MdAddLocationAlt, MdPostAdd } from "react-icons/md";
+import { MdAddLocationAlt, MdOutlineLogin, MdOutlineLogout, MdPayment, MdPostAdd } from "react-icons/md";
 
 const LeftNav = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,7 +52,7 @@ const LeftNav = () => {
       {/* Sidebar */}
       <div
         className={`fixed top-0 left-0 h-screen w-60 bg-gray-400 shadow-lg z-40 transform ${isOpen ? 'translate-x-0' : '-translate-x-full'
-          } md:translate-x-0 transition-transform duration-300 ease-in-out `}
+          } md:translate-x-0 transition-transform duration-300 ease-in-out overflow-y-auto backdrop-blur-md`}
       >
         <div className="flex justify-between items-center px-4 py-6">
           <button
@@ -92,7 +92,7 @@ const LeftNav = () => {
             <li>
               <Link
                 to="/"
-                className="flex items-center gap-2 py-2 pl-4 text-lg text-white transition-colors duration-300 hover:bg-blue-700 hover:rounded-lg hover:text-white"
+                className="flex items-center gap-2 py-2 pl-4 text-lg text-white transition-colors duration-300 hover:bg-orange-600 hover:rounded-lg hover:text-white"
               >
                 <FaHome />
                 Home
@@ -103,21 +103,32 @@ const LeftNav = () => {
                 <li>
                   <Link
                     to="/tours"
-                    className="flex items-center gap-2 py-2 pl-4 text-white transition-colors duration-300 hover:bg-blue-700 hover:rounded-lg hover:text-white"
+                    className="flex items-center gap-2 py-2 pl-4 text-white transition-colors duration-300 hover:bg-orange-600 hover:rounded-lg hover:text-white"
                   >
                     <FaMapSigns />
-                    Tours
+                    Events
                   </Link>
                 </li>
                 <li>
                   <Link
                     to="/clubs"
-                    className="flex items-center gap-2 py-2 pl-4 text-white transition-colors duration-300 hover:bg-blue-700 hover:rounded-lg hover:text-white"
+                    className="flex items-center gap-2 py-2 pl-4 text-white transition-colors duration-300 hover:bg-orange-600 hover:rounded-lg hover:text-white"
                   >
                     <FaRobot />
                     Clubs
                   </Link>
                 </li>
+                {user && (
+                  <li>
+                    <Link
+                      to="/my-payments"
+                      className="flex items-center gap-2 py-2 pl-4 text-white transition-colors duration-300 hover:bg-orange-600 hover:rounded-lg hover:text-white"
+                    >
+                      <MdPayment />
+                      My Payments
+                    </Link>
+                  </li>
+                )}
               </>
             )}
             {isAdmin && (
@@ -125,7 +136,7 @@ const LeftNav = () => {
                 <li>
                   <Link
                     to="/students"
-                    className="flex items-center gap-2 py-2 pl-4 text-white transition-colors duration-300 hover:bg-blue-700 hover:rounded-lg hover:text-white"
+                    className="flex items-center gap-2 py-2 pl-4 text-white transition-colors duration-300 hover:bg-orange-600 hover:rounded-lg hover:text-white"
                   >
                     <FaUsers />
                     Students
@@ -134,16 +145,16 @@ const LeftNav = () => {
                 <li>
                   <Link
                     to="/tours"
-                    className="flex items-center gap-2 py-2 pl-4 text-white transition-colors duration-300 hover:bg-blue-700 hover:rounded-lg hover:text-white"
+                    className="flex items-center gap-2 py-2 pl-4 text-white transition-colors duration-300 hover:bg-orange-600 hover:rounded-lg hover:text-white"
                   >
                     <FaMapSigns />
-                    Tours
+                    Events
                   </Link>
                 </li>
                 <li>
                   <Link
                     to="/clubs"
-                    className="flex items-center gap-2 py-2 pl-4 text-white transition-colors duration-300 hover:bg-blue-700 hover:rounded-lg hover:text-white"
+                    className="flex items-center gap-2 py-2 pl-4 text-white transition-colors duration-300 hover:bg-orange-600 hover:rounded-lg hover:text-white"
                   >
                     <FaRobot />
                     Clubs
@@ -152,16 +163,16 @@ const LeftNav = () => {
                 <li>
                   <Link
                     to="/addtour"
-                    className="flex items-center gap-2 py-2 pl-4 text-white transition-colors duration-300 hover:bg-blue-700 hover:rounded-lg hover:text-white"
+                    className="flex items-center gap-2 py-2 pl-4 text-white transition-colors duration-300 hover:bg-orange-600 hover:rounded-lg hover:text-white"
                   >
                     <MdAddLocationAlt />
-                    Add Tour
+                    Add Events
                   </Link>
                 </li>
                 <li>
                   <Link
                     to="/addclub"
-                    className="flex items-center gap-2 py-2 pl-4 text-white transition-colors duration-300 hover:bg-blue-700 hover:rounded-lg hover:text-white"
+                    className="flex items-center gap-2 py-2 pl-4 text-white transition-colors duration-300 hover:bg-orange-600 hover:rounded-lg hover:text-white"
                   >
                     <MdPostAdd />
                     Add Clubs
@@ -170,7 +181,7 @@ const LeftNav = () => {
                 <li>
                   <Link
                     to="/transaction-history"
-                    className="flex items-center gap-2 py-2 pl-4 text-white transition-colors duration-300 hover:bg-blue-700 hover:rounded-lg hover:text-white"
+                    className="flex items-center gap-2 py-2 pl-4 text-white transition-colors duration-300 hover:bg-orange-600 hover:rounded-lg hover:text-white"
                   >
                     <FaMoneyCheck />
                     Payment History
@@ -183,26 +194,26 @@ const LeftNav = () => {
 
         {/* Login and Logout Buttons */}
 
-        <div className="absolute bottom-6 left-4">
+        <div className=" mt-6 ml-4">
           {user ? (
             <>
               <button
                 onClick={handleLogOut}
-                className="block px-4 py-2 border-2 border-red-400 text-gray-200 font-semibold rounded-md hover:rounded-full bg-gradient-to-r from-red-600 to-red-600 hover:text-white transition duration-300 ease-in-out"
+                className="px-4 py-2 flex gap-2 justify-between items-center border-2 border-orange-400 text-gray-200 font-semibold rounded-md hover:rounded-full bg-orange-500 hover:text-white transition-transform duration-500 ease-in-out"
               >
-                Log Out
+                <MdOutlineLogout /> Log Out
               </button>
             </>
           ) : (
             <>
-              <li className="list-none">
-                <Link
-                  className="block border-2 px-4 py-2 border-green-400 text-gray-200 font-semibold rounded-md hover:rounded-full bg-gradient-to-r from-green-600 to-green-600 hover:text-white transition duration-300 ease-in-out"
-                  to="/login"
+
+              <Link to='/login'>
+                <button className="px-4 py-2 flex gap-2 justify-between items-center border-2 border-orange-400 text-gray-200 font-semibold rounded-md hover:rounded-full bg-orange-500 hover:text-white transition-all duration-500 ease-in-out"
                 >
-                  Login
-                </Link>
-              </li>
+                  <MdOutlineLogin /> Login
+                </button>
+              </Link>
+
             </>
           )}
         </div>
@@ -211,7 +222,7 @@ const LeftNav = () => {
       {/* Overlay */}
       {isOpen && (
         <div
-          className="fixed top-0 left-0 h-screen w-screen bg-black opacity-25 z-30"
+          className="fixed top-0 left-0 h-screen w-screen backdrop-blur-sm z-30"
           onClick={toggleNav}
         ></div>
       )}

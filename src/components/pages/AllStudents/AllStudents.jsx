@@ -7,7 +7,7 @@ const AllStudents = () => {
 
 
     const makeAdmin = async (user) => {
-        fetch(`https://unipay-server-toushik018.vercel.app/users/admin/${user._id}`, {
+        fetch(`http://localhost:5000/users/admin/${user._id}`, {
             method: 'PATCH'
         })
             .then(res => res.json())

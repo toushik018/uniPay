@@ -6,7 +6,7 @@ const useTourOrders = () => {
   const { user } = useContext(AuthContext);
 
   const { data: tourOrders, isLoading, error } = useQuery(['tourOrders', user?.email], async () => {
-    const res = await fetch('https://unipay-server-toushik018.vercel.app/tourorders');
+    const res = await fetch('http://localhost:5000/tourorders');
     return res.json();
   });
 
