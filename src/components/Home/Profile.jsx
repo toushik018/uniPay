@@ -6,13 +6,15 @@ const Profile = () => {
   const { user } = useContext(AuthContext);
 
   return (
-    <div className="avatar tooltip tooltip-bottom" data-tip={user?.displayName}>
+    <div className="avatar tooltip tooltip-bottom" data-tip={user?.name}>
       <div className="relative w-16 rounded-full transition-transform">
         <img
           src={user?.photoURL || noDp}
           alt="User Profile"
-          className="transform hover:scale-125 duration-500"
+          className="transform hover:scale-110 duration-500 ring ring-red-500 ring-offset-white ring-offset-2"
         />
+
+
       </div>
     </div>
   );

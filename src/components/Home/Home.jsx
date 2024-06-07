@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import logo_title from '../../assets/logo-title.png'
+import HomeSwiper from './HomeSwiper';
 
 
 const Home = () => {
@@ -33,16 +34,14 @@ const Home = () => {
 
 
     return (
-        <div className='w-full lg:w-4/5 mx-auto mt-16'>
+        <div className='w-full lg:w-4/5 mx-auto mt-4 px-0 py-8 md:pl-16 lg:pl-0'>
             <img src={logo_title} alt="" className='object-cover lg:px-0 px-4 w-full mx-auto' />
-
-
-            <div className="bgGradient py-10 rounded-2xl mt-4 m-2">
+            <div className="bgGradient py-8 rounded-2xl mt-4 m-2">
                 <div className="container mx-auto px-4">
                     {!user ? (
                         <div className="text-center">
                             <h1 className="text-4xl font-bold text-gray-800 mb-6">
-                                Welcome to <span className="bg-yellow-500 text-white px-2 py-1 rounded-lg">UPMS</span>,
+                                Welcome to <span className="shadow-current shadow-inner hover:shadow-xl duration-500 px-2 py-1 rounded-lg transition-all">DPMS</span>,
                                 a Payment System App for CSE Students
                             </h1>
 
@@ -51,16 +50,16 @@ const Home = () => {
                             </p>
                             <Link
                                 to="/login"
-                                className="text-white bg-blue-500 py-3 px-6 rounded-lg font-semibold hover:bg-blue-600"
+                                className="text-white bg-orange-500 py-3 px-6 rounded-lg font-semibold hover:bg-orange-600"
                             >
                                 Log In
                             </Link>
                         </div>
                     ) : (
                         <div className="flex flex-col md:flex-row justify-around">
-                            <div className="md:w-1/2 text-center mb-4">
+                            <div className="md:w-1/2 text-center mb-2">
                                 <h1 className="md:text-3xl text-4xl font-bold text-gray-700 mb-2">
-                                    Welcome back, {user?.displayName}
+                                    Welcome back, <span className='shadow-inner px-2 rounded-xl'>{user?.name}</span>
                                 </h1>
                                 <p>Stay up-to-date with important payment deadlines and never miss a payment again.</p>
                             </div>
@@ -86,7 +85,7 @@ const Home = () => {
 
 
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8 px-2">
                 <div className="bg-gray-100 shadow-4xl shadow-gray/40 rounded-md px-3 group">
                     <div className="flex items-center justify-between ">
                         <div className="w-16 h-16 bg-[#FF9671] text-white flex items-center justify-center rounded-lg shadow-xl shadow-[#FF9671]/50 -mt-10 group-hover:-mt-14 duration-300">
@@ -131,6 +130,7 @@ const Home = () => {
                 </div>
             </div>
 
+            <HomeSwiper></HomeSwiper>
 
 
 

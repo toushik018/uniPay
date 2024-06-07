@@ -74,18 +74,18 @@ const AddTour = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 lg:pl-16 md:pl-16">
       <div className="w-full max-w-6xl bg-white rounded-lg shadow-md p-8">
-        <h2 className="text-3xl font-semibold mb-6 text-center">Add a Tour</h2>
+        <h2 className="text-3xl font-semibold mb-6 text-center">Add an Event</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-6">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="destination"
             >
-              Destination
+              Event Title
             </label>
             <input
               type="text"
-              className="form-input w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-blue-500"
+              className="form-input w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-orange-500"
               {...register("destination", { required: true })}
             />
             {errors.destination && (
@@ -106,7 +106,7 @@ const AddTour = () => {
             </label>
             <textarea
               type="text"
-              className="form-textarea w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-blue-500"
+              className="form-textarea w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-orange-500"
               {...register("overview", { required: true })}
             />
             {errors.overview && (
@@ -125,7 +125,7 @@ const AddTour = () => {
               Itinerary
             </label>
             <textarea
-              className="form-textarea w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-blue-500 h-24"
+              className="form-textarea w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-orange-500 h-24"
               {...register("itinerary", { required: true })}
             />
             {errors.itinerary && (
@@ -145,7 +145,7 @@ const AddTour = () => {
               </label>
               <input
                 type="text"
-                className="form-input w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-blue-500"
+                className="form-input w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-orange-500"
                 {...register("cost", { required: true })}
               />
               {errors.cost && (
@@ -163,7 +163,7 @@ const AddTour = () => {
                 Registration
               </label>
               <select
-                className="form-select w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-blue-500"
+                className="form-select w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-orange-500"
                 {...register("registration", { required: true })}
               >
                 <option value="">Select</option>
@@ -186,7 +186,7 @@ const AddTour = () => {
               </label>
               <input
                 type="date"
-                className="form-input w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-blue-500"
+                className="form-input w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-orange-500"
                 {...register("departureDate", { required: true })}
               />
               {errors.departureDate && (
@@ -206,7 +206,7 @@ const AddTour = () => {
             </label>
             <input
               type="text"
-              className="form-input w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-blue-500"
+              className="form-input w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-orange-500"
               {...register("duration", { required: true })}
             />
             {errors.duration && (
@@ -225,7 +225,7 @@ const AddTour = () => {
             </label>
             <input
               type="text"
-              className="form-input w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-blue-500"
+              className="form-input w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-orange-500"
               {...register("accommodation", { required: true })}
             />
             {errors.accommodation && (
@@ -243,7 +243,7 @@ const AddTour = () => {
               Transportation
             </label>
             <select
-              className="form-select w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-blue-500"
+              className="form-select w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-orange-500"
               {...register("transportation", { required: true })}
             >
               <option value="">Select</option>
@@ -268,7 +268,7 @@ const AddTour = () => {
               Inclusions
             </label>
             <textarea
-              className="form-textarea w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-blue-500"
+              className="form-textarea w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-orange-500"
               {...register("inclusions", { required: true })}
             />
             {errors.inclusions && (
@@ -288,7 +288,7 @@ const AddTour = () => {
               Exclusions
             </label>
             <textarea
-              className="form-textarea w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-blue-500"
+              className="form-textarea w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-orange-500"
               {...register("exclusions", { required: true })}
             />
             {errors.exclusions && (
@@ -307,7 +307,7 @@ const AddTour = () => {
             </label>
             <input
               type="number"
-              className="form-input w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-blue-500"
+              className="form-input w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-orange-500"
               {...register("groupSize", { required: true })}
             />
             {errors.groupSize && (
@@ -325,7 +325,7 @@ const AddTour = () => {
               Tour Guides
             </label>
             <textarea
-              className="form-textarea w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-blue-500"
+              className="form-textarea w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-orange-500"
               {...register("tourGuides", { required: true })}
             />
             {errors.tourGuides && (
@@ -343,7 +343,7 @@ const AddTour = () => {
               Health and Safety Measures
             </label>
             <textarea
-              className="form-textarea w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-blue-500"
+              className="form-textarea w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-orange-500"
               {...register("healthSafety", { required: true })}
             />
             {errors.healthSafety && (
@@ -361,7 +361,7 @@ const AddTour = () => {
               Payment and Cancellation Policies
             </label>
             <textarea
-              className="form-textarea w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-blue-500"
+              className="form-textarea w-full px-4 py-2 rounded border border-gray-400 focus:outline-none focus:border-orange-500"
               {...register("paymentCancellation", { required: true })}
             />
             {errors.paymentCancellation && (
@@ -380,7 +380,7 @@ const AddTour = () => {
             <input
               type="file"
               {...register("image", { required: true })}
-              className="file-input file-input-bordered w-full max-w-xs"
+              className="file-input file-input-bordered w-full max-w-xs bg-orange-200"
             />
           </div>
 
@@ -388,9 +388,9 @@ const AddTour = () => {
             <button
               type="submit"
               disabled={mutation.isLoading}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
             >
-              {mutation.isLoading ? "Adding Tour..." : "Add Tour"}
+              {mutation.isLoading ? "Adding Event..." : "Add Event"}
             </button>
           </div>
         </form>

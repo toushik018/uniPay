@@ -34,7 +34,7 @@ const PaymentSuccess = () => {
           <h2 className="text-2xl font-semibold text-gray-800 mb-2">Payment Successful!</h2>
           <p className="text-gray-600 font-semibold">
             Thank you for the registration. Check your email for the invoice. <br />
-          <span className='bg-orange-200 px-2 rounded-md mt-2'>Stay tuned for more updates about this Event.</span>
+          <span className='bg-orange-200 px-2 rounded-md mt-2'>Stay tuned for more updates.</span>
           </p>
           <p className="text-gray-800 font-semibold mb-2">Transaction ID:  <span className="bg-green-200 px-2 rounded-md">{tranId}</span></p>
          

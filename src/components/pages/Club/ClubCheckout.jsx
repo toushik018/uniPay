@@ -12,7 +12,7 @@ const ClubCheckout = () => {
   const { register, handleSubmit, setValue } = useForm();
   const club = useLoaderData();
   const id = useParams();
-  const {users} = useUsersData();
+  const { users } = useUsersData();
 
   const [selectedPrice, setSelectedPrice] = useState('monthlyPrice');
 
@@ -22,12 +22,12 @@ const ClubCheckout = () => {
     setValue("date", currentDate);
   }, [setValue]);
 
-// Filter the user based on some condition (e.g., email matching)
-const filteredUser = users.find((u) => u.email === user.email);
+  // Filter the user based on some condition (e.g., email matching)
+  const filteredUser = users.find((u) => u.email === user.email);
 
-// Extract user's ID and batch from the filtered user
-const userId = filteredUser ? filteredUser.id : null;
-const userBatch = filteredUser ? filteredUser.batch : null;
+  // Extract user's ID and batch from the filtered user
+  const userId = filteredUser ? filteredUser.id : null;
+  const userBatch = filteredUser ? filteredUser.batch : null;
 
 
   const onSubmit = (data) => {
@@ -113,9 +113,9 @@ const userBatch = filteredUser ? filteredUser.batch : null;
                 <div className=" ">
                   <div>
                     <p className="font-normal font-Lexend leading-10  text-gray-700 text-2xl ">
-                      Monthly price: <span className='font-bold text-green-600'>{club?.monthlyPrice}</span> Tk </p>
+                      Monthly Fee: <span className='font-bold text-green-600'>{club?.monthlyPrice}</span> Tk </p>
                     <p className="font-normal font-Lexend leading-10  text-gray-700 text-2xl ">
-                      Yearly Price price: <span className='font-bold text-green-600'>{club?.yearlyPrice}</span> Tk </p>
+                      Yearly Price Fee: <span className='font-bold text-green-600'>{club?.yearlyPrice}</span> Tk </p>
                   </div>
                 </div>
 
@@ -133,7 +133,7 @@ const userBatch = filteredUser ? filteredUser.batch : null;
           </h2>
 
           <div className="flex justify-between text-gray-700 mb-4">
-            <p className="text-lg md:text-xl font-semibold">Club Prices:</p>
+            <p className="text-lg md:text-xl font-semibold">Club Fee:</p>
             <div className="flex items-center gap-1">
               <HiCurrencyBangladeshi className="text-[#1bbf72fa] text-3xl" />
               <p className="font-bold font-Lexend leading-10 text-gray-700 text-2xl">

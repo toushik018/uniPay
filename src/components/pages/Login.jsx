@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useContext } from 'react';
@@ -7,50 +7,71 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
-  const { signIn } = useContext(AuthContext);
+  const { signIn, logOut } = useContext(AuthContext);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  const from = location.state?.from?.pathname || '/';
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { reset, register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = (data) => {
-    signIn(data.email, data.password)
-      .then(() => {
-        console.log('User logged in successfully');
-        toast.success('Login successful!', {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-        reset();
-        navigate(from, { replace: true });
-      })
+    const { email, password } = data;
 
-      .catch(error => {
-        console.log(error);
-        toast.error('Invalid email or password. Please check your credentials.', {
-          position: toast.POSITION.TOP_RIGHT,
-        });
+    console.log(data);
 
+    setLoading(true); // Set loading to true when submitting
+
+    signIn(email, password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        if (user.emailVerified === false) {
+          logOut();
+          setError("Email is not verified");
+        } else {
+          setError('');
+          reset();
+          navigate('/');
+        }
       })
+      .catch((error) => {
+        setError(error.message);
+      })
+      .finally(() => {
+        setLoading(false); // Set loading to false when done or when there's an error
+      });
   };
 
 
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-gray-100 p-8 rounded-lg shadow-lg border border-gray-300">
+      <div className="bg-gray-100 p-8 rounded-lg shadow-lg border border-gray-300 hover:border hover:border-orange-500 duration-700 w-full max-w-lg">
         <div className="text-center">
-          <h2 className="text-3xl font-extrabold text-gray-800">Sign in to your account</h2>
-          <p className="mt-2 text-sm text-gray-600">
-            <span className='mr-2'>Or</span>
-            <Link to="/register" className="font-medium text-orange-600 hover:text-orange-500">
-              create a new account
+          <h2 className="text-3xl font-extrabold text-gray-800 mb-4">Sign in to your account</h2>
+          <p className="text-sm text-gray-600 mb-6">
+            <span className="block mb-2">Or</span>
+            <Link
+              to="/register"
+              className="text-orange-600 font-medium hover:text-orange-500 transition duration-300"
+            >
+              Create a Student account
+            </Link>
+            <span className="mx-2 text-gray-500">|</span>
+            <Link
+              to="/teacher-register"
+              className="text-orange-600 font-medium hover:text-orange-500 transition duration-300"
+            >
+             Teacher account
             </Link>
           </p>
         </div>
 
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}> 
+
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
 
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
@@ -102,14 +123,19 @@ const Login = () => {
                 Forgot your password?
               </Link>
             </div>
+
+          </div>
+          <div className='w-96'>
+          <p className="text-xs px-1 font-semibold text-red-600 ">{error}</p>
           </div>
 
           <div>
             <button
               type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+              className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 ${loading ? 'opacity-50 cursor-wait' : ''}`} // Apply opacity and cursor style when loading
+              disabled={loading} // Disable the button when loading
             >
-              Sign in
+              {loading ? 'Signing in...' : 'Sign in'} {/* Show loader or text */}
             </button>
           </div>
         </form>

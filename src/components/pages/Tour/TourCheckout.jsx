@@ -107,7 +107,7 @@ const onSubmit = (data) => {
                 <div className=" ">
                   <div>
                     <p className="font-normal font-Lexend leading-10  text-gray-700 text-2xl ">
-                      Monthly price: <span className='font-bold text-green-600'>{tour?.cost}</span> Tk </p>
+                      Cost: <span className='font-bold text-green-600'>{tour?.cost}</span> Tk </p>
                   </div>
                 </div>
 
@@ -125,7 +125,7 @@ const onSubmit = (data) => {
           </h2>
 
           <div className="flex justify-between text-gray-700 mb-4">
-            <p className="text-lg md:text-xl font-semibold">Tour Price:</p>
+            <p className="text-lg md:text-xl font-semibold">Cost:</p>
             <div className="flex items-center gap-1">
               <HiCurrencyBangladeshi className="text-[#1bbf72fa] text-3xl" />
               <p className="font-bold font-Lexend leading-10 text-gray-700 text-2xl">

@@ -100,7 +100,7 @@ const ClubPage = () => {
             return (
               <div
                 key={index}
-                className="bg-gray-100 rounded-lg p-2 flex justify-between items-center space-x-4"
+                className="bg-gray-100 rounded-lg p-2 flex-none lg:flex justify-between items-center space-x-4 mt-4"
               >
                 <img
                   src={club.image}
@@ -108,7 +108,9 @@ const ClubPage = () => {
                   className="w-24 h-24 object-cover rounded-md transition-transform duration-300 transform hover:scale-110"
                 />
                 <div>
-                  <p className="text-gray-900 font-bold text-2xl">{club.clubName}</p>
+                  <Link to={`/club/${club._id}`}>
+                    <p className="text-gray-700 font-bold text-2xl hover:underline hover:text-gray-900">{club.clubName}</p>
+                  </Link>
                   <p className="text-lg leading-8 text-gray-600">{club.clubRole} <span className='font-semibold'>{club.roleName}</span></p>
                 </div>
                 <div className='flex items-center gap-2 bg-slate-200 p-2 rounded-xl w-[300px]'>
@@ -145,16 +147,21 @@ const ClubPage = () => {
             return (
               <div
                 key={index}
-                className="bg-gray-100 rounded-lg p-2 flex justify-between items-center space-x-4"
+                className="bg-gray-100 rounded-lg p-2 flex-none lg:flex justify-between items-center space-x-4 mt-4"
               >
                 <img
                   src={club.image}
                   alt="Club Image"
                   className="w-24 h-24 object-cover rounded-md transition-transform duration-300 transform hover:scale-110"
                 />
-                <div>
-                  <p className="text-gray-900 font-bold text-2xl">{club.clubName}</p>
-                  <p className="text-lg leading-8 text-gray-600">{club.clubRole}  <span className='font-semibold'>{club.roleName}</span></p>
+                <div className='flex items-center justify-between space-x-16'>
+                  <div>
+                    <p className="text-gray-900 font-bold text-2xl">{club.clubName}</p>
+                    <p className="text-lg leading-8 text-gray-600">{club.clubRole}  <span className='font-semibold'>{club.roleName}</span></p>
+                  </div>
+
+                  <Link to={`/club/${club._id}`} className='ml-auto border-2 hover:bg-orange-500 hover:text-white border-black hover:border-orange-500 text-black text-base px-2 py-2 rounded-lg transition duration-300'>View Details</Link>
+
                 </div>
                 <div className="bg-orange-100 hover:bg-gray-100 duration-300 p-3 rounded-lg">
                   <div className="flex flex-col space-y-2">

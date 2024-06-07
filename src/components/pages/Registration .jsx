@@ -5,21 +5,16 @@ import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../Providers/AuthProvider';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { sendEmailVerification } from "firebase/auth";
+import { allowedStudentIDs } from '../../utils/studentIds';
 
 const Registration = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const { createUser, updateUserProfile, loading, logOut } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const imageHostingToken = import.meta.env.VITE_image_hosating;
-
-
   const { register, reset, handleSubmit, formState: { errors }, watch } = useForm();
-
-  const img_hosting_url = `https://api.imgbb.com/1/upload?key=${imageHostingToken}`;
-
-
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -33,66 +28,76 @@ const Registration = () => {
 
 
   const onSubmit = async (data) => {
-    const formData = new FormData();
-    formData.append("image", data.image[0]);
+
+
+    const isStudentIDAllowed = (studentID) => {
+      return allowedStudentIDs.includes(studentID);
+    };
+
+    if (!isStudentIDAllowed(data.studentId)) {
+      // If the student ID is not in the allowed list, show an error message
+      toast.error('Invalid Student ID. Please enter a valid Student ID.');
+      return;
+    }
 
     try {
-      const imageResponse = await fetch(img_hosting_url, {
-        method: "POST",
-        body: formData,
-      });
+      createUser(data.email, data.password)
+        .then((result) => {
+          const user = result.user;
+          logOut();
+          updateUserProfile(data.name, data.photoURL);
+          sendVerificationEmail(user);
 
-      if (!imageResponse.ok) {
-        throw new Error("Failed to upload image");
-      }
+          // After sending the verification email, allow the user to log in
+          toast.success('Registration successful. Please check your email for verification.');
+        })
+        .then(() => {
+          const saveUser = {
+            name: data.name,
+            email: data.email,
+            id: data.studentId,
+            batch: data.batch,
+            photoURL: data.photoURL,
+            phone: '',
+          };
 
-      const imageResult = await imageResponse.json();
-      if (imageResult.success) {
-        const imgURL = imageResult.data.display_url;
-        const userData = { ...data, photoURL: imgURL };
-
-        createUser(userData.email, userData.password)
-          .then((result) => {
-            const user = result.user;
-            console.log(user);
-            updateUserProfile(userData.name, userData.photoURL);
+          fetch('http://localhost:5000/users', {
+            method: 'POST',
+            headers: {
+              'content-type': 'application/json',
+            },
+            body: JSON.stringify(saveUser),
           })
-          .then(() => {
-            console.log('User profile updated');
-            const saveUser = { name: userData.name, email: userData.email, id: userData.studentId, batch: userData.batch, photoURL: userData.photoURL };
-
-            fetch('http://localhost:5000/users', {
-              method: 'POST',
-              headers: {
-                'content-type': 'application/json',
-              },
-              body: JSON.stringify(saveUser),
+            .then((res) => res.json())
+            .then((result) => {
+              if (result.insertedId) {
+                reset();
+                navigate(from, { replace: true });
+              }
             })
-              .then((res) => res.json())
-              .then((data) => {
-                if (data.insertedId) {
-                  reset();
-                  toast.success("You have registered successfully");
-                  navigate('/');
-                }
-              });
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      } else {
-        throw new Error("Failed to get image URL");
-      }
+            .catch((error) => {
+              console.error(error);
+            });
+        })
+        .catch((error) => {
+          if (error.code === 'auth/email-already-in-use') {
+            toast.error('The email address is already in use.');
+          } else {
+            console.error(error);
+          }
+        });
     } catch (error) {
-      console.error("Error uploading image:", error);
+      console.error('Error uploading image:', error);
     }
   };
 
 
-
-
-
-
+  const sendVerificationEmail = (user) => {
+    sendEmailVerification(user)
+      .then((result) => {
+        console.log(result);
+      });
+  };
 
   const validatePassword = (value) => {
     if (!value) {
@@ -111,8 +116,6 @@ const Registration = () => {
     }
     return true;
   };
-
-
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
@@ -136,14 +139,13 @@ const Registration = () => {
                 type="text"
                 autoComplete="off"
                 required
-                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
               />
             </div>
           </div>
 
-
           <div>
-            <label htmlFor="id" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
               Name
             </label>
             <div className="mt-1">
@@ -153,7 +155,7 @@ const Registration = () => {
                 type="text"
                 autoComplete="off"
                 required
-                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
               />
             </div>
           </div>
@@ -166,7 +168,7 @@ const Registration = () => {
               <select
                 id="batch"
                 {...register('batch', { required: true })}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
               >
                 <option value="">Select Batch</option>
                 <option value="8th">8th</option>
@@ -192,7 +194,7 @@ const Registration = () => {
                 type="email"
                 autoComplete="email"
                 required
-                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
               />
             </div>
             {errors.email && (
@@ -211,7 +213,7 @@ const Registration = () => {
                 type={showPassword ? 'text' : 'password'}
                 autoComplete="new-password"
                 required
-                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pr-10"
+                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm pr-10"
               />
               <div
                 className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
@@ -236,7 +238,7 @@ const Registration = () => {
                 type={showConfirmPassword ? 'text' : 'password'}
                 autoComplete="new-password"
                 required
-                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pr-10"
+                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm pr-10"
               />
               <div
                 className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
@@ -250,23 +252,10 @@ const Registration = () => {
             )}
           </div>
 
-          {/* Image upload */}
-
-          <div className="form-control w-full max-w-lg">
-            <label className="label">
-              <span className="label-text">Upload an Image</span>
-            </label>
-            <input
-              type="file"
-              {...register("image", { required: true })}
-              className="file-input file-input-bordered w-full max-w-lg"
-            />
-          </div>
-
           <div>
             <button
               type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover-bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
             >
               Register
             </button>
@@ -275,7 +264,7 @@ const Registration = () => {
           <div className="text-sm">
             <p className="text-gray-700">
               Already have an account?{' '}
-              <Link to="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
+              <Link to="/login" className="font-medium text-orange-600 hover:text-orange-500">
                 Sign in
               </Link>
             </p>

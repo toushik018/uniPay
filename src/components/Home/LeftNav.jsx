@@ -4,8 +4,10 @@ import { AuthContext } from '../../Providers/AuthProvider';
 import Profile from './Profile';
 import logo from '../../../public/logo.svg'
 import useAdmin from '../../hooks/useAdmin';
-import { FaHome, FaMapSigns, FaMoneyCheck, FaRobot, FaUsers } from 'react-icons/fa';
+import { FaHome, FaMapSigns, FaMoneyCheck, FaRobot, FaUsers, } from 'react-icons/fa';
 import { MdAddLocationAlt, MdOutlineLogin, MdOutlineLogout, MdPayment, MdPostAdd } from "react-icons/md";
+import { HiOutlineBars3CenterLeft } from "react-icons/hi2";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 
 const LeftNav = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,25 +28,12 @@ const LeftNav = () => {
     <div>
       {/* Hamburger menu button */}
       {!isOpen && (
-        <div className="md:hidden fixed top-0 left-0 m-4 z-50">
+        <div className="md:hidden fixed top-0 left-4 m-3 z-50">
           <button
-            className="p-2 text-gray-500 hover:text-gray-700 focus:outline-none"
+            className="text-gray-800 hover:text-gray-900 focus:outline-none backdrop-blur-md rounded-md"
             onClick={toggleNav}
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
+            <HiOutlineBars3CenterLeft className='text-2xl text-black' />
           </button>
         </div>
       )}
@@ -59,31 +48,18 @@ const LeftNav = () => {
             className="p-2 text-white focus:outline-none md:hidden"
             onClick={toggleNav}
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
+            <AiOutlineCloseCircle className='text-3xl' />
           </button>
         </div>
 
         <div className="text-center -mt-6 lg:mt-2">
           <Link to='/'>
-            <img className="text-2xl font-bold text-white w-3/5 mx-auto hover:scale-110 duration-500" src={logo} alt="" />
+            <h1 className="text-3xl font-bold text-white w-3/5 mx-auto hover:scale-110 duration-500 font-TitilliumWeb" >DPMS </h1>
           </Link>
         </div>
         <div className='text-center mt-8'>
           <Profile />
-          <h2 className='mt-4 font-bold text-lg text-white'>{user?.displayName}</h2>
+          <h2 className='mt-4 font-bold text-lg text-white'>{user?.name}</h2>
           <hr className='w-4/5 mx-auto mt-2' />
         </div>
 
@@ -119,15 +95,27 @@ const LeftNav = () => {
                   </Link>
                 </li>
                 {user && (
-                  <li>
-                    <Link
-                      to="/my-payments"
-                      className="flex items-center gap-2 py-2 pl-4 text-white transition-colors duration-300 hover:bg-orange-600 hover:rounded-lg hover:text-white"
-                    >
-                      <MdPayment />
-                      My Payments
-                    </Link>
-                  </li>
+                  <>
+                    <li>
+                      <Link
+                        to="/my-payments"
+                        className="flex items-center gap-2 py-2 pl-4 text-white transition-colors duration-300 hover:bg-orange-600 hover:rounded-lg hover:text-white"
+                      >
+                        <MdPayment />
+                        My Payments
+                      </Link>
+                    </li>
+
+                    <li>
+                      <Link
+                        to="/my-profile"
+                        className="flex items-center gap-2 py-2 pl-4 text-white transition-colors duration-300 hover:bg-orange-600 hover:rounded-lg hover:text-white"
+                      >
+                        <MdPayment />
+                        My Profile
+                      </Link>
+                    </li>
+                  </>
                 )}
               </>
             )}
@@ -139,7 +127,7 @@ const LeftNav = () => {
                     className="flex items-center gap-2 py-2 pl-4 text-white transition-colors duration-300 hover:bg-orange-600 hover:rounded-lg hover:text-white"
                   >
                     <FaUsers />
-                    Students
+                    Users
                   </Link>
                 </li>
                 <li>

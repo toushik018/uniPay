@@ -1,13 +1,18 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../../Providers/AuthProvider';
 import useUsersData from '../../../hooks/useUserData';
+import ReactPaginate from 'react-paginate';
+import { FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa';
 
 const MyPayments = () => {
   const { user } = useContext(AuthContext);
-  const { users } = useUsersData()
+  const { users } = useUsersData();
   const [payments, setPayments] = useState({ events: [], clubs: [] });
   const [selectedTab, setSelectedTab] = useState('events');
   const [isLoading, setIsLoading] = useState(true);
+
+  const [currentPage, setCurrentPage] = useState(0); // Track the current page
+  const paymentsPerPage = 5; // Number of payments to display per page
 
 
 
@@ -38,11 +43,22 @@ const MyPayments = () => {
     setSelectedTab(tab);
   };
 
-  const filteredPayments = payments[selectedTab]?.filter(
-    (payment) => payment.order.email === user?.email
+
+
+  // Calculate the total number of pages based on the filtered payments
+  const pageCount = Math.ceil(
+    payments[selectedTab]?.filter((payment) => payment.order.email === user?.email)?.length /
+    paymentsPerPage
   );
 
-  console.log(filteredPayments);
+  // Slice the payments based on the current page and paymentsPerPage
+  const slicedPayments = payments[selectedTab]
+    ?.filter((payment) => payment.order.email === user?.email)
+    .slice(currentPage * paymentsPerPage, (currentPage + 1) * paymentsPerPage);
+
+  const handlePageChange = ({ selected }) => {
+    setCurrentPage(selected);
+  };
 
   return (
     <div className="md:pl-16 lg:pl-16">
@@ -106,7 +122,7 @@ const MyPayments = () => {
               </tr>
             ) : (
               /* ... Table rows */
-              filteredPayments?.map((payment) => {
+              slicedPayments?.map((payment) => {
                 const { club, tour, order } = payment;
                 return (
                   <tr key={payment._id}>
@@ -153,6 +169,21 @@ const MyPayments = () => {
           </tbody>
         </table>
       </div>
+
+      <ReactPaginate
+        previousLabel={<FaAngleDoubleLeft />}
+        nextLabel={<FaAngleDoubleRight />}
+        pageCount={pageCount}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={5}
+        onPageChange={handlePageChange}
+        containerClassName={'flex justify-center mt-4'}
+        pageClassName={'mx-2 px-2 text-xl py-1 border rounded-full font-bold hover:bg-orange-200 cursor-pointer'}
+        activeClassName={'bg-orange-500 text-white'}
+        previousClassName={'mx-2 text-2xl flex items-center opacity-25 hover:opacity-100 duration-500 rounded-md cursor-pointer font-semibold'}
+        nextClassName={'mx-2 text-2xl flex items-center opacity-25 hover:opacity-100 duration-500 rounded-md cursor-pointer font-semibold'}
+        breakClassName={'mx-2 px-3 py-2 border rounded-md hover:bg-orange-200 cursor-pointer'}
+      />
     </div>
 
   );

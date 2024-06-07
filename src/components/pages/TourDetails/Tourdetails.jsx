@@ -1,18 +1,37 @@
-import { useLoaderData } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useLoaderData } from 'react-router-dom';
+import useAuth from '../../../hooks/useAuth';
 
 const TourDetailsPage = () => {
   const tour = useLoaderData();
-
+  const [userOrder, setUserOrder] = useState([]);
+  const { user } = useAuth();
   console.log(tour);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/tourorders")
+      .then((res) => res.json())
+      .then((data) => {
+        setUserOrder(data);
+      });
+  }, []);
+
+  function isUserRegistered(tourId, email) {
+    const userOrderEntry = userOrder.find(
+      (order) => order.tour._id === tourId && order.order.email === email
+    );
+
+    return userOrderEntry ? userOrderEntry.paidStatus : false;
+  }
 
 
 
   return (
     <div className="bg-gray-100 min-h-screen pt-8">
       <div className="max-w-screen-lg w-full mx-auto px-4 py-8">
-        <div className="mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+        <div className="mx-auto bg-white border-2 border-gray-200 rounded-lg overflow-hidden">
           <img
-            className="w-full h-auto lg:h-[600px] object-"
+            className="w-full h-auto lg:h-[600px] object-cover hover:scale-105 duration-300"
             src={tour.image}
             alt={tour.destination}
           />
@@ -22,7 +41,7 @@ const TourDetailsPage = () => {
 
           </div>
         </div>
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden mt-8">
+        <div className="bg-white border-2 border-gray-200 rounded-lg overflow-hidden mt-8">
           <div className="px-6 py-4">
             <h3 className="text-xl font-bold text-gray-800 mb-2">Overview</h3>
             <p className="text-gray-600 mb-2">{tour.overview}</p>
@@ -45,7 +64,7 @@ const TourDetailsPage = () => {
             </ul>
           </div>
         </div>
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden mt-8">
+        <div className="bg-white border-2 border-gray-200 rounded-lg overflow-hidden mt-8">
           <div className="px-6 py-4">
             <h3 className="text-xl font-bold text-gray-800 mb-2">Details</h3>
             <ul className="text-gray-600 space-y-4">
@@ -83,9 +102,25 @@ const TourDetailsPage = () => {
                 <strong>Payment and Cancellation Policies:</strong> {tour.paymentCancellation}
               </li>
             </ul>
+            <div className="flex justify-end mt-4">
+              <Link to={`/tours-checkout/${tour._id}`}>
+                <button
+                  className={`px-4 py-2 rounded-full ${isUserRegistered(tour._id, user?.email)
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-green-500 hover:bg-green-600"
+                    } text-white font-medium`}
+                  disabled={isUserRegistered(tour._id, user?.email)}
+                >
+                  {isUserRegistered(tour._id, user?.email) ? "Registered" : "Register"}
+                </button>
+              </Link>
+            </div>
           </div>
+
         </div>
       </div>
+
+
     </div>
 
   );
